@@ -15,16 +15,16 @@ XHR.onreadystatechange = function() {
   // if readyState and status code complete
   if(XHR.readyState == 4 && XHR.status == 200) {
     // create variable data and set it equal to the output of running JSONparse over the returned data from the server
-    var data = JSON.parse(XHR.responseText)
+    var data = JSON.parse(XHR.responseText);
     // log the price in usd by accessing the correct obj of the data array
     // console.log(data)
     // console.log(data[0]['price_usd']);
-    var ethPrice = data[1]['price_usd'];
-    var btcPrice = data[0]['price_usd'];
-    var ltcPrice = data[5]['price_usd'];
-    var xmrPrice = data[12]['price_usd'];
-    var bchPrice = data[3]['price_usd'];
-    var xrpPrice = data[2]['price_usd'];
+    var ethPrice = data['data']['1027']['quotes']['USD']['price'];
+    var btcPrice = data['data']['1']['quotes']['USD']['price'];
+    var ltcPrice = data['data']['2']['quotes']['USD']['price'];
+    var xmrPrice = data['data']['328']['quotes']['USD']['price'];
+    var bchPrice = data['data']['1831']['quotes']['USD']['price'];
+    var xrpPrice = data['data']['52']['quotes']['USD']['price'];
     // console.log(ethPrice);
     ethPriceDisplay.innerText = ethPrice;
     btcPriceDisplay.innerText = btcPrice;
@@ -33,19 +33,20 @@ XHR.onreadystatechange = function() {
     bchPriceDisplay.innerText = bchPrice;
     xrpPriceDisplay.innerText = xrpPrice;
   }
+  
 }
 
 // GRLC is not listed in the first url, so a second XHR instance is created
 XHR2.onreadystatechange = function() {
   if(XHR2.readyState == 4 && XHR2.status == 200) {
     var data2 = JSON.parse(XHR2.responseText)
-    var grlcPrice = data2[0]['price_usd'];
+    var grlcPrice = data2['data']['quotes']['USD']['price'];
     grlcPriceDisplay.innerText = grlcPrice;
   }
 }
   
-var url = "https://api.coinmarketcap.com/v1/ticker/?convert=USD"
-var url2 = "https://api.coinmarketcap.com/v1/ticker/garlicoin/?convert=USD"
+var url = "https://api.coinmarketcap.com/v2/ticker/"
+var url2 = "https://api.coinmarketcap.com/v2/ticker/2475/"
 XHR.open("GET", url);
 XHR2.open("GET", url2);
 XHR.send();
